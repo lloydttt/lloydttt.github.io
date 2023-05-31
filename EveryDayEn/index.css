@@ -1,0 +1,15 @@
+#pic{
+    max-width: 50%;
+    max-height: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+#quote{
+    font-size: 24px;
+    font-family: 'Roboto', sans-serif;
+    color: #555;
+    border-left: 2px solid #ccc;
+    padding: 0 0 0 12px;
+    margin: 0;
+}
