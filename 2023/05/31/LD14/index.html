@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>About me | Lloydの小屋</title>
+  <title>利用STM32F103RCT6获取LD14雷达点云 | Lloydの小屋</title>
 
   <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -617,14 +617,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg')">
+  background-position: center center;position: relative;background-image:url('https://picx.zhimg.com/80/v2-b44931ea513e5f7b3b06f2703f79653c_1440w.webp')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        About me
+        利用STM32F103RCT6获取LD14雷达点云
       </span>
     </div>
     
@@ -645,24 +645,45 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="我的介绍"><a href="#我的介绍" class="headerlink" title="我的介绍"></a>我的介绍</h2><p>Me: <strong>Lloydttt</strong> | CQU Mingyue Class | <em>Robot AI Front-end Software-design</em> </p>
-<h2 id="我的技能"><a href="#我的技能" class="headerlink" title="我的技能"></a>我的技能</h2><p><strong>C C++ Python HTML5 CSS Linux ROS</strong><br>正在学习中 有无限可能</p>
-<div style="display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 30px 30px;
-  grid-column-gap: 20px">
-<div class="progress"><div class="progress-bar-animated progress-bar progress-bar-striped bg-danger"  style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"><p>進め</p></div></div>
-<!-- <div class="progress"><div class="progress-bar-animated progress-bar progress-bar-striped bg-info"  style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><p>进度条测试</p></div></div>
-<div class="progress"><div class="progress-bar-animated progress-bar progress-bar-striped bg-success"  style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><p>进度条测试</p></div></div>
-<div class="progress"><div class="progress-bar-animated progress-bar progress-bar-striped bg-warning"  style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><p>进度条测试</p></div></div>
-<div class="progress"><div class="progress-bar-animated progress-bar progress-bar-striped bg-primary"  style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><p>进度条测试</p></div></div> -->
-</div>
+        <h1 id="LD14雷达与STM32F103RCT6"><a href="#LD14雷达与STM32F103RCT6" class="headerlink" title="LD14雷达与STM32F103RCT6"></a>LD14雷达与STM32F103RCT6</h1><h2 id="LD14激光雷达介绍"><a href="#LD14激光雷达介绍" class="headerlink" title="LD14激光雷达介绍"></a>LD14激光雷达介绍</h2><h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>乐动激光雷达LD14共有四个接口，使用1.25mm 连接器与外部系统连接。具体定义与参数见《开发手册》中图。<br><img src="/myimg/LD14/1.png" class="lazyload placeholder" data-srcset="/myimg/LD14/1.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="接口定义与参数"><br>在不要求PWM控制雷达转速的情况下可以将PWM接口悬空，默认以6Hz转速旋转。<br>数据通讯采用标准异步串口单向发送，参数如图。<br><img src="/myimg/LD14/2.png" class="lazyload placeholder" data-srcset="/myimg/LD14/2.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="UART参数"><br>接线正确稳定工作后，雷达将会自动开始通过串口通信发送数据包。<br><img src="/myimg/LD14/3.jpg" class="lazyload placeholder" data-srcset="/myimg/LD14/3.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="数据包格式"></p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>使用示例讲解数据包，假设其中一组数据包内容如下。<br><img src="/myimg/LD14/4.png" class="lazyload placeholder" data-srcset="/myimg/LD14/4.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="示例"><br>前两个数据分别是起始符与VerLen，为固定值，后两个分别为雷达转速十六进制表达的后八位与前八位。自此开始，是各点测量数据。在一个数据包中，将会有12个点数据，每个点数据又由距离值（前两个数据）与置信度（后一个数据）组成，前两个数据分别是距离值十六进制表示的后八位与前八位。在默认转速下，一个数据包内起始角到终止角约12度，每一个角数据约1度。原始数据由于三角测距原理，需要后续修正。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>LD14使用左手坐标系，旋转中心为坐标原点，旋转角度沿顺时针增大。</p>
+<h2 id="STM32F103RCT6使用"><a href="#STM32F103RCT6使用" class="headerlink" title="STM32F103RCT6使用"></a>STM32F103RCT6使用</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>将STM32F103RCT6的USART3与USART1使能，RCC配置如下<br><img src="/myimg/LD14/5.png" class="lazyload placeholder" data-srcset="/myimg/LD14/5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>Clock Configuration HCLK 72 max 配置。</p>
+<h3 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h3><p>借助开发手册与示例，根据三角测速原理，在main文件或usart3文件中进行数据修正与处理。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">USART3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span><span class="comment">//接收ld14雷达数据，一帧47个字节</span></span><br><span class="line">&#123;	</span><br><span class="line">	<span class="type">static</span> u8 state = <span class="number">0</span>;<span class="comment">//状态位	</span></span><br><span class="line">	<span class="type">static</span> u8 crc = <span class="number">0</span>;<span class="comment">//校验和</span></span><br><span class="line">	<span class="type">static</span> u8 cnt = <span class="number">0</span>;<span class="comment">//用于一帧12个点的计数</span></span><br><span class="line">	u8 temp_data;</span><br><span class="line">	<span class="keyword">if</span>(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET) <span class="comment">//接收到数据</span></span><br><span class="line">	&#123;	  </span><br><span class="line">		temp_data=USART_ReceiveData(USART3); </span><br><span class="line">		USART_ClearITPendingBit(USART3,USART_IT_RXNE);</span><br><span class="line">		<span class="keyword">if</span> (state &gt; <span class="number">5</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(state &lt; <span class="number">42</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(state%<span class="number">3</span> == <span class="number">0</span>)<span class="comment">//一帧数据中的序号为6,9.....39的数据，距离值低8位</span></span><br><span class="line">				&#123;</span><br><span class="line">					Pack_Data.point[cnt].distance = (u16)temp_data;</span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(state%<span class="number">3</span> == <span class="number">1</span>)<span class="comment">//一帧数据中的序号为7,10.....40的数据，距离值高8位</span></span><br><span class="line">				&#123;</span><br><span class="line">					Pack_Data.point[cnt].distance = ((u16)temp_data&lt;&lt;<span class="number">8</span>)+Pack_Data.point[cnt].distance;</span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span><span class="comment">//一帧数据中的序号为8,11.....41的数据，置信度</span></span><br><span class="line">				&#123;</span><br><span class="line">					Pack_Data.point[cnt].confidence = temp_data;</span><br><span class="line">					cnt++;	</span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> </span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">switch</span>(state)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">case</span> <span class="number">42</span>:</span><br><span class="line">						Pack_Data.end_angle = (u16)temp_data;<span class="comment">//结束角度低8位</span></span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="number">43</span>:</span><br><span class="line">						Pack_Data.end_angle = ((u16)temp_data&lt;&lt;<span class="number">8</span>)+Pack_Data.end_angle;<span class="comment">//结束角度高8位</span></span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="number">44</span>:</span><br><span class="line">						Pack_Data.timestamp = (u16)temp_data;<span class="comment">//时间戳低8位</span></span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="number">45</span>:</span><br><span class="line">						Pack_Data.timestamp = ((u16)temp_data&lt;&lt;<span class="number">8</span>)+Pack_Data.timestamp;<span class="comment">//时间戳高8位</span></span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">						<span class="keyword">break</span>;</span><br><span class="line">					<span class="keyword">case</span> <span class="number">46</span>:</span><br><span class="line">						Pack_Data.crc8 = temp_data;<span class="comment">//雷达传来的校验和</span></span><br><span class="line">						<span class="keyword">if</span>(Pack_Data.crc8 == crc)<span class="comment">//校验正确</span></span><br><span class="line">						&#123;</span><br><span class="line">							receive_cnt++;<span class="comment">//输出接收到正确数据的次数</span></span><br><span class="line">							data_process();<span class="comment">//接收到一帧且校验正确可以进行数据处理</span></span><br><span class="line"></span><br><span class="line">							<span class="comment">//printf(&quot;666\n&quot;);</span></span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span></span><br><span class="line">							<span class="built_in">memset</span>(&amp;Pack_Data,<span class="number">0</span>,<span class="keyword">sizeof</span>(Pack_Data));<span class="comment">//清零</span></span><br><span class="line">						crc = <span class="number">0</span>;</span><br><span class="line">						state = <span class="number">0</span>;</span><br><span class="line">						cnt = <span class="number">0</span>;<span class="comment">//复位</span></span><br><span class="line">					<span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">switch</span>(state)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">					<span class="keyword">if</span>(temp_data == HEADER)<span class="comment">//头固定</span></span><br><span class="line">					&#123;</span><br><span class="line">						Pack_Data.header = temp_data;</span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];<span class="comment">//开始进行校验</span></span><br><span class="line">					&#125; <span class="keyword">else</span> state = <span class="number">0</span>,crc = <span class="number">0</span>;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">					<span class="keyword">if</span>(temp_data == LENGTH)<span class="comment">//测量的点数，目前固定</span></span><br><span class="line">					&#123;</span><br><span class="line">						Pack_Data.ver_len = temp_data;</span><br><span class="line">						state++;</span><br><span class="line">						crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">					&#125; <span class="keyword">else</span> state = <span class="number">0</span>,crc = <span class="number">0</span>;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">					Pack_Data.speed = (u16)temp_data;<span class="comment">//雷达的转速低8位，单位度每秒</span></span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">					Pack_Data.speed = ((u16)temp_data&lt;&lt;<span class="number">8</span>)+Pack_Data.speed;<span class="comment">//雷达的转速高8位</span></span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">					Pack_Data.start_angle = (u16)temp_data;</span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">					Pack_Data.start_angle = ((u16)temp_data&lt;&lt;<span class="number">8</span>)+Pack_Data.start_angle;</span><br><span class="line">					state++;</span><br><span class="line">					crc = CrcTable[(crc^temp_data) &amp; <span class="number">0xff</span>];</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;		</span><br><span class="line">&#125; </span><br><span class="line"><span class="type">void</span> <span class="title function_">data_process</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">/*for(int i=0;i&lt;12;i=i+1)&#123;</span></span><br><span class="line"><span class="comment">		printf(&quot;%u &quot;,Pack_Data.point[i].distance);</span></span><br><span class="line"><span class="comment">		</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	printf(&quot;\n&quot;);*/</span></span><br><span class="line">	<span class="type">static</span> <span class="type">uint8_t</span> data_cnt_avoid = <span class="number">0</span>;		<span class="comment">//避障模式数组计数变量</span></span><br><span class="line">	<span class="type">uint8_t</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="type">float</span> start_angle = Pack_Data.start_angle/<span class="number">100.0</span>;<span class="comment">//开始角度</span></span><br><span class="line">	<span class="type">float</span> end_angel = Pack_Data.end_angle/<span class="number">100.0</span>;	<span class="comment">//结束角度</span></span><br><span class="line">	<span class="keyword">if</span>(start_angle&gt;=<span class="number">360</span>)</span><br><span class="line">		start_angle -= <span class="number">360</span>;</span><br><span class="line">	<span class="keyword">if</span>(end_angel&gt;=<span class="number">360</span>)</span><br><span class="line">		end_angel -= <span class="number">360</span>;</span><br><span class="line">	<span class="type">float</span> average_angel;				</span><br><span class="line">	<span class="keyword">if</span>((start_angle -= <span class="number">180</span>)&lt;<span class="number">0</span>)</span><br><span class="line">		start_angle += <span class="number">360</span>;</span><br><span class="line">	<span class="keyword">if</span>((end_angel -= <span class="number">180</span>)&lt;<span class="number">0</span>)</span><br><span class="line">		end_angel += <span class="number">360</span>;</span><br><span class="line">	<span class="keyword">if</span>(start_angle&gt;end_angel) end_angel +=<span class="number">360</span>;</span><br><span class="line">	average_angel = (end_angel - start_angle)/<span class="number">11</span>;</span><br><span class="line"><span class="comment">//	if((start_angle&gt;250||end_angel&lt;150))</span></span><br><span class="line"><span class="comment">//	&#123;</span></span><br><span class="line"><span class="comment">//		for(i=0;i&lt;12;i++)</span></span><br><span class="line"><span class="comment">//		&#123;</span></span><br><span class="line"><span class="comment">//			AvoidData[data_cnt_avoid].angle = start_angle + i*average_angel;</span></span><br><span class="line"><span class="comment">//			if(AvoidData[data_cnt_avoid].angle&gt;=360)</span></span><br><span class="line"><span class="comment">//				AvoidData[data_cnt_avoid].angle -= 360;</span></span><br><span class="line"><span class="comment">//			AvoidData[data_cnt_avoid].distance = Pack_Data.point[i].distance;</span></span><br><span class="line"><span class="comment">//			if(++data_cnt_avoid == 100)</span></span><br><span class="line"><span class="comment">//				data_cnt_avoid = 0;</span></span><br><span class="line"><span class="comment">//		&#125;</span></span><br><span class="line"><span class="comment">//	&#125;</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">12</span>;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			AvoidData[data_cnt_avoid].angle = start_angle + i*average_angel;</span><br><span class="line">			<span class="keyword">if</span>(AvoidData[data_cnt_avoid].angle&gt;=<span class="number">360</span>)</span><br><span class="line">				AvoidData[data_cnt_avoid].angle -= <span class="number">360</span>;</span><br><span class="line">			AvoidData[data_cnt_avoid].distance = Pack_Data.point[i].distance;</span><br><span class="line">			<span class="keyword">if</span>(++data_cnt_avoid == <span class="number">100</span>)</span><br><span class="line">				data_cnt_avoid = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义如下结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">attribute__</span>((<span class="title">packed</span>)) <span class="title">Point_Data</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	u16 distance;<span class="comment">//距离</span></span><br><span class="line">	u8 confidence;<span class="comment">//置信度</span></span><br><span class="line">	</span><br><span class="line">&#125;LidarPointStructDef;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">attribute__</span>((<span class="title">packed</span>)) <span class="title">Pack_Data</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">uint8_t</span> header;</span><br><span class="line">	<span class="type">uint8_t</span> ver_len;</span><br><span class="line">	<span class="type">uint16_t</span> speed;</span><br><span class="line">	<span class="type">uint16_t</span> start_angle;</span><br><span class="line">	LidarPointStructDef point[POINT_PER_PACK];</span><br><span class="line">	<span class="type">uint16_t</span> end_angle;</span><br><span class="line">	<span class="type">uint16_t</span> timestamp;</span><br><span class="line">	<span class="type">uint8_t</span> crc8;</span><br><span class="line">&#125;LiDARFrameTypeDef;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">attribute__</span>((<span class="title">packed</span>)) <span class="title">PointDataProcess_</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">uint16_t</span> distance;<span class="comment">//距离</span></span><br><span class="line">	<span class="type">float</span> angle;<span class="comment">//角度</span></span><br><span class="line">&#125;PointDataProcessDef;<span class="comment">//经过处理后的数据</span></span><br></pre></td></tr></table></figure>
+<p>在USART1加入处理代码使其满足printf()函数使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> 1</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> import(__use_no_semihosting)             </span></span><br><span class="line"><span class="comment">//标准库需要的支持函数                 </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">FILE</span> </span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">	<span class="type">int</span> handle; </span><br><span class="line"></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line">FILE __stdout;       </span><br><span class="line"><span class="comment">//定义_sys_exit()以避免使用半主机模式    </span></span><br><span class="line"><span class="type">void</span> _sys_exit(<span class="type">int</span> x) </span><br><span class="line">&#123; </span><br><span class="line">	x = x; </span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//重定义fputc函数 </span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">(<span class="type">int</span> ch, FILE *f)</span></span><br><span class="line">&#123;      </span><br><span class="line">	<span class="keyword">while</span>((USART1-&gt;SR&amp;<span class="number">0X40</span>)==<span class="number">0</span>);<span class="comment">//循环发送,直到发送完毕   </span></span><br><span class="line">    USART1-&gt;DR = (u8) ch;      </span><br><span class="line">	<span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br></pre></td></tr></table></figure>
 
-<h2 id="保持热爱"><a href="#保持热爱" class="headerlink" title="保持热爱"></a>保持热爱</h2><div class="gallery ">
-              <p><img src="/myimg/1.jpg" class="lazyload placeholder" data-srcset="/myimg/1.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="my about"></p>
-            </div>
+<p>初始化、开启各中断后在while中输出Avoid_Data数组即可获得数据。</p>
+<p>通过串口调试助手保存后如图<br><img src="/myimg/LD14/6.png" class="lazyload placeholder" data-srcset="/myimg/LD14/6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="点云数据"></p>
+<h2 id="Matlab处理点云数据"><a href="#Matlab处理点云数据" class="headerlink" title="Matlab处理点云数据"></a>Matlab处理点云数据</h2><h3 id="编程-1"><a href="#编程-1" class="headerlink" title="编程"></a>编程</h3><p>在Matlab中读取保存好的点云数据</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data1 = fileread(<span class="string">&#x27;Documents.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>由于我控制输出流格式，使用正则表达式提取相应数据</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">angle_pattern = <span class="string">&#x27;Angle: ([\d\.]+)&#x27;</span>;</span><br><span class="line">distance_pattern = <span class="string">&#x27;Distance: (\d+)&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>转化为数值，注意角度转换为弧度制</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">angle_matches5 = regexp(data5, angle_pattern, <span class="string">&#x27;tokens&#x27;</span>);</span><br><span class="line">distance_matches5 = regexp(data5, distance_pattern, <span class="string">&#x27;tokens&#x27;</span>);</span><br><span class="line">angles5 = <span class="built_in">cellfun</span>(@(x) str2double(x&#123;<span class="number">1</span>&#125;), angle_matches5);</span><br><span class="line">distances5 = <span class="built_in">cellfun</span>(@(x) str2double(x&#123;<span class="number">1</span>&#125;), distance_matches5);</span><br></pre></td></tr></table></figure>
+<p>转化为笛卡尔坐标系，便于多点采样后解决坐标变换问题。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x1 = distances1 .* <span class="built_in">cos</span>(angles1_rad);</span><br><span class="line">y1 = distances1 .* <span class="built_in">sin</span>(angles1_rad);</span><br><span class="line"></span><br><span class="line">x2 = distances2 .* <span class="built_in">cos</span>(angles2_rad)+<span class="number">900</span>;</span><br><span class="line">y2 = distances2 .* <span class="built_in">sin</span>(angles2_rad)+<span class="number">80</span>;</span><br></pre></td></tr></table></figure>
+<p>最后 <strong>plot()</strong> 绘制图像即可<br>效果如下<br><img src="/myimg/LD14/7.png" class="lazyload placeholder" data-srcset="/myimg/LD14/7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="最终效果"></p>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>在点云数据保存处理过程中，由于信息传输过快，串口打印有几率出现乱码，Matlab数据处理时有几率出现数据大小运算不相容的状况，可自己编写程序自动化修改数据。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><strong>《LD14用户开发手册》</strong><br><strong>《LD14数据手册》</strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45935114/article/details/127379890?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168555238216800185860114%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168555238216800185860114&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-127379890-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=LD14%E9%9B%B7%E8%BE%BE&spm=1018.2226.3001.4187"><strong>LD14雷达STM32F103C8T6获取LD14激光雷达数据</strong></a></p>
+
       </div>
       <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/STM32/" class="">
+              STM32
+            </a>
+          
+            <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" class="">
+              嵌入式
+            </a>
+          
+        </div>
         
       </div>
       
@@ -673,7 +694,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/about/index.html" target="_blank" title="About me">https://lloydttt.github.io/about/index.html</a>
+    <a href="/2023/05/31/LD14/" target="_blank" title="利用STM32F103RCT6获取LD14雷达点云">https://lloydttt.github.io/2023/05/31/LD14/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -692,6 +713,23 @@
 
 
 
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/05/31/hexo_npm_problem/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">hexo command not found--问题解决</div>
+      </div>
+      <!-- <div class="content">
+        问题阐述当尝试用Hexo与Github pages尝试做博客网站时，安装了Node.js与npm后，执行Hexo-cli
+      </div> -->
+    </a>
+  </div>
 
 </div>
 
@@ -721,13 +759,6 @@
     
     <!-- 评论 -->
     <!-- 评论 -->
-
-  <div id="myComment">
-    
-      <div id="gitment-container"></div>
-
-    
-  </div>
 
 <!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
 
@@ -789,53 +820,29 @@
   <div class="layout_sticky">    
     
       
-        
-    <section class="widget side_category">
-      
+<section class="widget side_toc">
+  
   <header>
     
-      <a style="color: " href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
     
   </header>
 
 
-      <div class='content'>
-        <ul class="entry navigation">
-          
-            <li><a class="flat-box"
-              title="/categories/Hexo/" href="/categories/Hexo/"
-              id="categoriesHexo"
-              ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/STM32/" href="/categories/STM32/"
-              id="categoriesSTM32"
-              ><div class='name'>STM32</div><div class='badge'>(1)</div></a></li>
-          
-        </ul>
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LD14%E9%9B%B7%E8%BE%BE%E4%B8%8ESTM32F103RCT6"><span class="toc-text">LD14雷达与STM32F103RCT6</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LD14%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E4%BB%8B%E7%BB%8D"><span class="toc-text">LD14激光雷达介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-text">基本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STM32F103RCT6%E4%BD%BF%E7%94%A8"><span class="toc-text">STM32F103RCT6使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B"><span class="toc-text">编程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Matlab%E5%A4%84%E7%90%86%E7%82%B9%E4%BA%91%E6%95%B0%E6%8D%AE"><span class="toc-text">Matlab处理点云数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B-1"><span class="toc-text">编程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E6%80%9D"><span class="toc-text">反思</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-text">参考文献</span></a></li></ol></li></ol> -->
+        <div class="toc"></div>
       </div>
-    </section>
-  
-  
-      
-      
-        
-<section class="widget side_tagcloud">
-    
-  <header>
-    
-      <a style="color: " href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-    <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/STM32/" style="font-size: 14px; color: #999">STM32</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 14px; color: #999">嵌入式</a>
     </div>
+  </div>
 </section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
 
-  
-      
       
   <section class="widget side_recent_post">
     
@@ -897,142 +904,6 @@
       </div>
     </div>
   </section>
-
-      
-  <section class="widget side_archives">
-    
-    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">2</span></a></li></ul></div>
-  </section>
-
-      <section class="widget side_webinfo">
-  
-  <header>
-    
-      <i style="color: " class="fas fa-chart-line fa-fw" aria-hidden="true"></i><span class='name' style="color: ">站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>2 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2023/05/28'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="busuanzi_value_site_uv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="busuanzi_value_site_pv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Thu Jun 01 2023 01:02:48 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2023-06-01 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2023-06-01 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
-      
-  
-    <div class="widget historyToday" id="historyToday" style="order: ;background: #fff">
-      <header>
-        
-          <a style="color: #d63130" target="_blank" rel="noopener" href='http://google.com'><i class="fas fa-calendar-week fa-fw" aria-hidden="true"></i><span class='name'>历史上的今天</span></a>
-        
-      </header>
-      <div class="content">
-         <div id="myHistorySwiper" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()"> <swiper class="myhistoryswiper" ref="myhistoryswiper" style="height:80px;" :options="swiperOption"> <swiper-slide v-for="(item, index) in content" :key="index"> {{item}} </swiper-slide> </swiper> </div> <script defer src="/historyToday/index.js"></script> 
-      </div>
-  </div>
-  
 
     
   </div>
@@ -1115,7 +986,7 @@
 			clearInterval(this.time);
 		},
 		mounted() {
-			let prop = 'https://picx.zhimg.com/80/v2-85c31120acff76826ab53ea8934ef4bb_1440w.webp' || '';
+			let prop = '' || '';
 			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
 			if (isImg) {
 				let img = prop.split(',');
@@ -1906,71 +1777,6 @@
    
 
 <!-- 评论所需js -->
-
-  
-    <script type="text/javascript">
-  var utteranceCommon = {};
-
-  function check_utterance() {
-    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
-    if (isDark) {
-      utteranceCommon.Theme = 'github-dark';
-    } else {
-      utteranceCommon.Theme = 'github-light';
-    }
-
-    return document.getElementById("gitment-container");
-  }
-  comment_el = '#gitment-container';
-  load_utterance = function () {
-    if ($(comment_el).length) {
-      // 匿名函数，防止污染全局变量
-      const HEAD = check_utterance();
-
-      var utterances = document.createElement('script');
-      utterances.type = 'text/javascript';
-      utterances.async = true;
-      utterances.setAttribute('issue-term', 'pathname')
-      utterances.setAttribute('theme', utteranceCommon.Theme)
-      utterances.setAttribute('repo', '')
-      utterances.crossorigin = 'anonymous';
-      utterances.src = 'https://utteranc.es/client.js';
-      // content 是要插入评论的地方
-      document.getElementById('gitment-container').appendChild(utterances);
-
-    }
-  }
-
-  function dark_utterance() {
-    const HEAD = check_utterance();
-    if (!HEAD) return;
-    const message = {
-      type: 'set-theme',
-      theme: utteranceCommon.Theme
-    };
-    const utteranceIframe = document.querySelector('iframe');
-    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
-  }
-
-  $(document).ready(load_utterance);
-  document.addEventListener('pjax:complete', function () {
-    load_utterance();
-  });
-
-  $('.dark').click(function () {
-    setTimeout(() => {
-      dark_utterance();
-    });
-  })
-
-</script>
-
-<style>
-  .utterances {
-    max-width: inherit !important;
-  }
-</style>
-  
 
 
 <!-- 鼠标点击特效 -->
