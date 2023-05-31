@@ -14,7 +14,7 @@
     margin: 0;
 } */
 
-#pic {
+/* #pic {
     display: block;
     margin: 0 auto;
     position: relative;
@@ -33,6 +33,34 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  
+  .quote-en {
+    font-size: 24px;
+  }
+  
+  .quote-zh {
+    font-size: 18px;
+    font-style: italic;
+    font-family: Kaiti;
+  }
+   */
+
+
+   #pic {
+    display: block;
+    max-width: 50%;
+    max-height: 100%;
+    border-radius: 10px; 
+  }
+  
+  blockquote {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 12px;
   }
   
   .quote-en {
