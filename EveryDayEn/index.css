@@ -1,4 +1,4 @@
-#pic{
+/* #pic{
     max-width: 50%;
     max-height: 50%;
     display: block;
@@ -12,4 +12,36 @@
     border-left: 2px solid #ccc;
     padding: 0 0 0 12px;
     margin: 0;
-}
+} */
+
+#pic {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px; 
+  }
+  
+  #quote {
+    font-family: 'Roboto', sans-serif;
+    color: #555;
+    border-left: 2px solid #ccc;
+    padding: 0 0 0 12px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .quote-en {
+    font-size: 24px;
+  }
+  
+  .quote-zh {
+    font-size: 18px;
+    font-style: italic;
+    font-family: Kaiti;
+  }
+  
