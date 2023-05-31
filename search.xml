@@ -8,7 +8,7 @@
       <link href="/2023/05/31/hexo_npm_problem/"/>
       <url>/2023/05/31/hexo_npm_problem/</url>
       
-        <content type="html"><![CDATA[<h2 id="问题阐述"><a href="#问题阐述" class="headerlink" title="问题阐述"></a>问题阐述</h2><p>当尝试用Hexo与Github pages尝试做博客网站时，安装了Node.js与npm后，执行Hexo-cli全局安装命令后，使用 <strong>hexo init</strong> 时，很有可能出现 <em>command not found</em> 的情况<br><img src="/myimg/hexo_bug.png" class="lazyload placeholder" data-srcset="/myimg/hexo_bug.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="hexo报错"></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>出现 <strong>xxx command not found</strong> 时一般是相应环境变量中缺少相应路径，导致无法找到相应可执行文件，关键词无法使用。<br>由于安装时使用了 <em>-g</em> 全局安装命令，所以Hexo路径一般在Node.js安装路径下的node_global文件夹内，找到相应 hexo_cli 文件夹，发现该文件夹内的bin文件夹中有一个hexo文件<br><img src="/myimg/bin_folder.png" class="lazyload placeholder" data-srcset="/myimg/bin_folder.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="hexo文件"><br>只需要将此文件夹路径复制，来到系统变量编辑界面下<br><img src="/myimg/hexo_value.png" class="lazyload placeholder" data-srcset="/myimg/hexo_value.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>再在 <strong>Git Bash</strong> 执行下面代码检查环境是否配置成功</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure><p>显示下列信息等即表示配置成功。<br><img src="/myimg/hexo_solved.png" class="lazyload placeholder" data-srcset="/myimg/hexo_solved.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p><h2 id="前期注意事项"><a href="#前期注意事项" class="headerlink" title="前期注意事项"></a>前期注意事项</h2><p>在使用 <em>npm</em> 时尽量在具有管理员权限的终端内执行，否则可能会出现创建文件夹等权限不足报错的情况。</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="问题阐述"><a href="#问题阐述" class="headerlink" title="问题阐述"></a>问题阐述</h2><p>当尝试用Hexo与Github pages尝试做博客网站时，安装了Node.js与npm后，执行Hexo-cli全局安装命令后，使用 <strong>hexo init</strong> 时，很有可能出现 <em>command not found</em> 的情况<br><img src="/myimg/hexo_bug.png" class="lazyload placeholder" data-srcset="/myimg/hexo_bug.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="hexo报错"></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>出现 <strong>xxx command not found</strong> 时一般是相应环境变量中缺少相应路径，导致无法找到相应可执行文件，关键词无法使用。<br>由于安装时使用了 <em>-g</em> 全局安装命令，所以Hexo路径一般在Node.js安装路径下的node_global文件夹内，找到相应 hexo_cli 文件夹，发现该文件夹内的bin文件夹中有一个hexo文件(该文件无后缀名)<br><img src="/myimg/bin_folder.png" class="lazyload placeholder" data-srcset="/myimg/bin_folder.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="hexo文件"><br>只需要将此文件夹路径复制，来到系统变量编辑界面下<br><img src="/myimg/hexo_value.png" class="lazyload placeholder" data-srcset="/myimg/hexo_value.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>再在 <strong>Git Bash</strong> 执行下面代码检查环境是否配置成功</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure><p>显示下列信息等即表示配置成功。<br><img src="/myimg/hexo_solved.png" class="lazyload placeholder" data-srcset="/myimg/hexo_solved.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p><h2 id="前期注意事项"><a href="#前期注意事项" class="headerlink" title="前期注意事项"></a>前期注意事项</h2><p>在使用 <em>npm</em> 时尽量在具有管理员权限的终端内执行，否则可能会出现创建文件夹等权限不足报错的情况。</p>]]></content>
       
       
       <categories>
@@ -23,31 +23,6 @@
             <tag> bug </tag>
             
             <tag> Hexo </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>testi</title>
-      <link href="/2023/05/28/testi/"/>
-      <url>/2023/05/28/testi/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>test</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Test </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Initialize </tag>
             
         </tags>
       
