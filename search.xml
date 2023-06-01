@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Windows11中Docker镜像储存位置修改</title>
+      <link href="/2023/06/01/docker_change_diskLoct/"/>
+      <url>/2023/06/01/docker_change_diskLoct/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Win11系统下Docker镜像储存位置问题"><a href="#Win11系统下Docker镜像储存位置问题" class="headerlink" title="Win11系统下Docker镜像储存位置问题"></a>Win11系统下Docker镜像储存位置问题</h1><h2 id="问题阐述"><a href="#问题阐述" class="headerlink" title="问题阐述"></a>问题阐述</h2><p>在Windows 11 pro系统中安装Docker时，若使用 <em>wsl2</em> 安装，则将会安装一个适用于Windows的Linux子系统，我的该子系统版本为 Ubuntu 22.04 LTS。而我们的Docker Desktop程序也是基于这个子系统运行的。<br>故在成功安装完成Docker Desktop后，输入指令</p><figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure><p>发现显示disk储存位置显示为Linux系统下的目录，对应着Windows系统下的C盘 <strong>用户\AppData\Docker</strong> 中的相关目录<br>在Docker虚拟机中，Docker镜像、容器的有关均在磁盘映像文件中<br><img src="/myimg/Docker_diskLoc/1.png" class="lazyload placeholder" data-srcset="/myimg/Docker_diskLoc/1.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Docker储存"><br>因新的wsl、wsl2技术，用户无法在GUI界面直接修改Disk Location<br>故需要手动修改。</p><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>首先进入关闭Docker，进入终端，输入指令</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --list -v</span><br></pre></td></tr></table></figure><p>该指令将会列出当前正在执行的wsl分发<br>确保 <strong>docker-desktop</strong> 与 <strong>docker-desktop-data</strong> 停止运行，若仍有运行，执行指令</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl -t ...</span><br></pre></td></tr></table></figure><p>…为相应分发名称。<br>后输入指令备份相关磁盘映像文件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wsl --export docker-desktop-data &quot;D:\Docker\docker-desktop-data.tar&quot;</span><br><span class="line">wsl --export docker-desktop &quot;D:\Docker\docker-desktop.tar&quot;</span><br></pre></td></tr></table></figure><p>目录可自定义，然后在自定义目录下创建文件夹 <strong>docker-desktop-data</strong> 与 <strong>docker-desktop</strong><br>后注销原文件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wsl --unregister docker-desktop-data</span><br><span class="line">wsl --unregister docker-desktop</span><br></pre></td></tr></table></figure><p>再将其导回wsl，导入自定义目录下的<strong>docker-desktop-data</strong> 与 <strong>docker-desktop</strong>文件夹。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wsl --import docker-desktop-data &quot;D:\docker\docker-desktop-data&quot; &quot;D:\Docekr\docker-desktop-data.tar&quot; --version 2</span><br><span class="line">wsl --import docker-desktop &quot;D:\Docker\docker-desktop&quot; &quot;D:\docker-desktop.tar&quot; --version 2</span><br></pre></td></tr></table></figure><p>注意标注版本 <strong>–version</strong><br>后可拉取一个镜像验证，成功可发现拉去新镜像后C盘大小未变（若出现微小变换可能是因为运行镜像时的动态变化），自定义目录所在磁盘空间减少，修改成功。</p><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>成功后可将<strong>docker-desktop-data.tar</strong> 与 <strong>docker-desktop.tar</strong> 删除</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Docker </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> bug </tag>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>利用STM32F103RCT6获取LD14雷达点云</title>
       <link href="/2023/05/31/LD14/"/>
       <url>/2023/05/31/LD14/</url>
