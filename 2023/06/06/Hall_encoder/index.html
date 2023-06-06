@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>分类: ESP32 | Lloydの小屋</title>
+  <title>霍尔编码器的使用方法 | Lloydの小屋</title>
 
   <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -604,161 +604,544 @@
 </header>
         <!-- 内容区域 -->
         
+ <!-- prismjs 代码高亮 -->
+ 
 
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
-<div class="bg-light-floor-categoryDetail" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
 
-<div class="category-header"  style="background-image:url('https://pic3.zhimg.com/80/v2-98dcd81cb0d1fee52a807c13cedb8338_1440w.jpg?source=1940ef5c')">
-  <div class="category-header-title">
-    category
-  </div>
-  <div class="category-header-desc">
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        霍尔编码器的使用方法
+      </span>
+    </div>
     
-      <span class="title" id="category-header-desc"></span>
-      <script>
-  function typedFn() {
-    const el = '#category-header-desc';
-    const type = 'categoryDetail';
-    let desc = '愿你如风，被人温柔以待'
-    var typed = new Typed(el, {
-      strings: [desc],
-      startDelay: 100,
-      typeSpeed: 100,
-      loop: true,
-      backSpeed: 50,
-      showCursor: true
-    });
-  }
-  typedFn();
-</script>
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="霍尔编码器介绍"><a href="#霍尔编码器介绍" class="headerlink" title="霍尔编码器介绍"></a>霍尔编码器介绍</h1><h2 id="什么是霍尔编码器"><a href="#什么是霍尔编码器" class="headerlink" title="什么是霍尔编码器"></a>什么是霍尔编码器</h2><p>霍尔编码器（Hall Encoder）是一种传感器，用于检测和测量磁场的变化。它基于霍尔效应，这是一种电磁现象，当磁场作用于一种特定类型的材料时，会在该材料内部产生电势差。</p>
+<p>霍尔编码器通常由霍尔传感器和磁场源组成。磁场源可以是一个永久磁铁或一个电磁线圈，而霍尔传感器则是一种能够测量磁场的变化并将其转换为电信号的器件。</p>
+<p>在霍尔编码器中，磁场源和霍尔传感器之间存在相对运动。当磁场源靠近或远离霍尔传感器时，磁场的变化会导致霍尔传感器输出一个电信号。这个电信号的特点可以用来确定磁场源的位置和方向。</p>
+<p>霍尔编码器常用于测量旋转运动或线性运动的位置和速度。它们被广泛应用于各种设备和系统，例如电机控制、机器人、位置传感器等。由于霍尔编码器不接触物体，因此具有非接触式测量、长寿命和高可靠性等优点，使其成为许多应用中的理想选择。<br><img src="/myimg/Hall_Encoder/1.jpg" class="lazyload placeholder" data-srcset="/myimg/Hall_Encoder/1.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="霍尔编码器"></p>
+<h2 id="霍尔编码器与光电编码器的区别"><a href="#霍尔编码器与光电编码器的区别" class="headerlink" title="霍尔编码器与光电编码器的区别"></a>霍尔编码器与光电编码器的区别</h2><p>原理：霍尔编码器使用磁场变化来测量旋转位置和方向，而光电编码器则使用光电检测原理，通过测量光电信号的脉冲数来确定旋转角度和方向。</p>
+<p>精度：通常情况下，光电编码器的精度要高于霍尔编码器。光电编码器可以实现高精度的位置控制，因为它可以生成更多的信号脉冲，从而提高了分辨率。而霍尔编码器通常比较适合用于需要较少精度的应用。</p>
+<p>环境适应性：霍尔编码器在恶劣的环境下有更好的适应性，例如高温、高湿度、高腐蚀等。而光电编码器则对环境有较高的要求，需要避免光照强烈、尘埃等干扰。</p>
+<p>应用场景：由于光电编码器的精度更高，它通常被用于需要高精度位置控制的应用，例如机器人、半导体加工等。而霍尔编码器则更适用于工业自动化、医疗设备、汽车控制等应用，这些应用对精度要求不高，但需要传感器能够适应恶劣的环境。</p>
+<h2 id="编码器主要种类"><a href="#编码器主要种类" class="headerlink" title="编码器主要种类"></a>编码器主要种类</h2><ul>
+<li><p>旋转霍尔编码器（Rotary Hall Encoder）：用于测量旋转运动的位置和速度。它们通常由一个旋转磁场源和一个或多个固定的霍尔传感器组成。通过检测磁场的变化，可以确定旋转轴的位置和方向。</p>
+</li>
+<li><p>线性霍尔编码器（Linear Hall Encoder）：用于测量线性运动的位置和速度。线性霍尔编码器通常由一个磁场源和一个或多个线性排列的霍尔传感器组成。随着磁场源或传感器的移动，可以通过测量磁场的变化来确定位置和方向。</p>
+</li>
+<li><p>磁性条码霍尔编码器（Magnetic Stripe Hall Encoder）：这种类型的霍尔编码器通常用于读取磁性条码。磁性条码包含一系列的磁极，而霍尔传感器则用来检测磁极的变化，并将其转换为数字信号进行解码。</p>
+</li>
+<li><p>磁性环霍尔编码器（Magnetic Ring Hall Encoder）：这种编码器通常由一个环形磁体和多个固定的霍尔传感器组成。磁性环上的磁极和传感器之间的相对运动可以用于测量旋转运动的位置和速度。</p>
+</li>
+<li><p>增量式霍尔编码器（Incremental Hall Encoder）：这种编码器输出的信号是增量式的，它们提供有关位置变化的信息，但无法直接确定绝对位置。增量式霍尔编码器通常包括两个或多个输出通道，如A、B相和一个指针信号。</p>
+</li>
+<li><p>绝对式霍尔编码器（Absolute Hall Encoder）：与增量式编码器不同，绝对式霍尔编码器可以直接确定位置的绝对值。它们通常包含多个霍尔传感器和一个编码器，用于将磁场的位置映射到具体的编码值。</p>
+</li>
+</ul>
+<h2 id="主要测速方法"><a href="#主要测速方法" class="headerlink" title="主要测速方法"></a>主要测速方法</h2><ul>
+<li><p>增量式测速法：增量式霍尔编码器通常具有A相和B相两个输出通道，每个通道都会输出脉冲信号。通过计算A相和B相脉冲信号的数量和相对位置变化，可以确定物体的转速。通过统计单位时间内的脉冲数量，并根据编码器的分辨率进行转换，可以得到物体的角速度或转速。</p>
+</li>
+<li><p>计时测速法：在计时测速法中，通过测量霍尔编码器输出信号中相邻脉冲之间的时间间隔来计算速度。可以使用计时器或微控制器来记录脉冲信号的时间戳，并计算相邻脉冲之间的时间差。通过将脉冲时间差与编码器的分辨率和单位时间进行计算，可以得到物体的速度。</p>
+</li>
+<li><p>频率测速法：频率测速法通过统计霍尔编码器输出信号的脉冲频率来计算速度。可以使用计数器或频率计来测量单位时间内脉冲的数量，并将其转换为速度值。这种方法适用于高速运动，因为频率计可以快速测量脉冲频率。</p>
+</li>
+<li><p>相位差测速法：相位差测速法利用霍尔编码器的A相和B相信号之间的相位差来计算速度。通过比较两个相位信号的相对位置变化，可以确定物体的速度。可以使用相位差计算器或编码器解码器来测量相位差，并将其转换为速度值。</p>
+</li>
+</ul>
+<h1 id="使用ESP32解码获取电机速度"><a href="#使用ESP32解码获取电机速度" class="headerlink" title="使用ESP32解码获取电机速度"></a>使用ESP32解码获取电机速度</h1><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>本文中使用的为增量式霍尔编码器。<br>由于Arduino与ESP32均无正交解码功能，而编码器返回的数据是一组正交信号，所以要想实现正交解码功能的话就需要用两个io口来同时判断当前是属于状态。<br>首先定义两个GPIO接受编码器脉冲信号，与中断时间，我们将接受脉冲信号计算速度写在中断里。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Arduino.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Ticker.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> L_encoder_1 5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> L_encoder_2 18</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> R_encoder_1 4</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> R_encoder_2 19</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> interrupt_time 10 <span class="comment">// 中断时间</span></span></span><br></pre></td></tr></table></figure>
+<p>注意头文件引用<br>计数测速原理图示如下<br><img src="/myimg/Hall_Encoder/2.png" class="lazyload placeholder" data-srcset="/myimg/Hall_Encoder/2.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>我们使用两个编码器的1(A)通道测速，使用2(B)通道检测旋转方向。<br> <strong>代码编写方法参考了文末参考文献内容</strong></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Ticker timer_read_encoder; </span><br><span class="line"></span><br><span class="line"><span class="type">int32_t</span> Velocity_L, Velocity_R;   <span class="comment">//左右轮编码器数据</span></span><br><span class="line"><span class="type">int16_t</span> Velocity_Left, Velocity_Right;     <span class="comment">//左右轮速度</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">READ_ENCODER_L</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">READ_ENCODER_R</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">myread</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">READ_ENCODER_L</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(ENCODER_L) == <span class="literal">LOW</span>) &#123;     <span class="comment">//如果是下降沿触发的中断</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(DIRECTION_L) == <span class="literal">LOW</span>)      Velocity_L--;  <span class="comment">//根据另外一相电平判定方向</span></span><br><span class="line">    <span class="keyword">else</span>      Velocity_L++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;     <span class="comment">//如果是上升沿触发的中断</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(DIRECTION_L) == <span class="literal">LOW</span>)      Velocity_L++; <span class="comment">//根据另外一相电平判定方向</span></span><br><span class="line">    <span class="keyword">else</span>     Velocity_L--; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">READ_ENCODER_R</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(ENCODER_R) == <span class="literal">LOW</span>) &#123; <span class="comment">//如果是下降沿触发的中断</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(DIRECTION_R) == <span class="literal">LOW</span>)      Velocity_R--;<span class="comment">//根据另外一相电平判定方向</span></span><br><span class="line">    <span class="keyword">else</span>      Velocity_R++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;   <span class="comment">//如果是上升沿触发的中断</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">digitalRead</span>(DIRECTION_R) == <span class="literal">LOW</span>)      Velocity_R++; <span class="comment">//根据另外一相电平判定方向</span></span><br><span class="line">    <span class="keyword">else</span>     Velocity_R--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">myread</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">/**************************************************************************</span></span><br><span class="line"><span class="comment">计算为转速n/s  500线光电编码器数据 定时时间为20MS</span></span><br><span class="line"><span class="comment"> 转速 = num/500/20ms</span></span><br><span class="line"><span class="comment"> 转速 = num*2/time</span></span><br><span class="line"><span class="comment">**************************************************************************/</span></span><br><span class="line">    Velocity_Left = Velocity_L*<span class="number">2</span>/interrupt_time;    Velocity_L = <span class="number">0</span>;  <span class="comment">//读取左轮编码器数据，并清零，这就是通过M法测速（单位时间内的脉冲数）得到速度。</span></span><br><span class="line">    Velocity_Right = Velocity_R*<span class="number">2</span>/interrupt_time;    Velocity_R = <span class="number">0</span>; <span class="comment">//读取右轮编码器数据，并清零</span></span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Setup与loop函数内容如下</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// put your setup code here, to run once:</span></span><br><span class="line">  <span class="built_in">Serial</span>.<span class="built_in">begin</span>(<span class="number">115200</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">pinMode</span>(ENCODER_L, <span class="literal">INPUT</span>);      </span><br><span class="line">  <span class="built_in">pinMode</span>(ENCODER_R, <span class="literal">INPUT</span>);      </span><br><span class="line">  <span class="built_in">pinMode</span>(DIRECTION_L, <span class="literal">INPUT</span>);    </span><br><span class="line">  <span class="built_in">pinMode</span>(DIRECTION_R, <span class="literal">INPUT</span>);    </span><br><span class="line">  </span><br><span class="line">  <span class="comment">//编码器接口1 开启外部跳边沿中断 </span></span><br><span class="line">  <span class="built_in">attachInterrupt</span>(ENCODER_L, READ_ENCODER_L, CHANGE);  <span class="comment">//中断函数READ_ENCODER_L</span></span><br><span class="line">  <span class="comment">//编码器接口2 开启外部跳边沿中断 </span></span><br><span class="line">  <span class="built_in">attachInterrupt</span>(ENCODER_R, READ_ENCODER_R, CHANGE);  <span class="comment">//中断函数READ_ENCODER_R</span></span><br><span class="line">    </span><br><span class="line">  <span class="built_in">interrupts</span>();                      <span class="comment">//打开外部中断  </span></span><br><span class="line">  timer_read_encoder.<span class="built_in">attach_ms</span>(interrupt_time, myread); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// put your main code here, to run repeatedly:</span></span><br><span class="line">  <span class="built_in">Serial</span>.<span class="built_in">print</span>(<span class="string">&quot;Velocity_L:&quot;</span>);<span class="built_in">Serial</span>.<span class="built_in">print</span>(Velocity_L);    <span class="comment">//左轮编码器计数</span></span><br><span class="line">  <span class="built_in">Serial</span>.<span class="built_in">print</span>(<span class="string">&quot; | Velocity_Left:&quot;</span>);<span class="built_in">Serial</span>.<span class="built_in">println</span>(Velocity_Left);  <span class="comment">//左轮速度</span></span><br><span class="line">  <span class="built_in">Serial</span>.<span class="built_in">print</span>(<span class="string">&quot;Velocity_R:&quot;</span>);<span class="built_in">Serial</span>.<span class="built_in">println</span>(Velocity_R);   <span class="comment">//右轮编码器计数</span></span><br><span class="line">  <span class="built_in">Serial</span>.<span class="built_in">print</span>(<span class="string">&quot; | Velocity_Right:&quot;</span>);<span class="built_in">Serial</span>.<span class="built_in">println</span>(Velocity_Right);   <span class="comment">//右轮速度</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45829708/article/details/122374287?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168606109816782425152237%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168606109816782425152237&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-122374287-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=esp32%E4%BD%BF%E7%94%A8%E9%9C%8D%E5%B0%94%E7%BC%96%E7%A0%81%E5%99%A8&spm=1018.2226.3001.4187"><strong>ESP32 Arduino平衡小车制作】（一）霍尔编码器解码</strong></a></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/ESP32/" class="">
+              ESP32
+            </a>
+          
+            <a href="/tags/Hall-Encoder/" class="">
+              Hall_Encoder
+            </a>
+          
+        </div>
+        
+      </div>
       
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>Lloydttt</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2023/06/06/Hall_encoder/" target="_blank" title="霍尔编码器的使用方法">https://lloydttt.github.io/2023/06/06/Hall_encoder/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" class="lazyload placeholder" data-srcset="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/06/02/ESP_Ard_eSPI/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">使用Arduino IDE中eSPI库驱动TFT、OLED</div>
+      </div>
+      <!-- <div class="content">
+        eSPI库介绍eSPI库是用与驱动一系列包含st7789、st7735等驱动芯片的TFT与OLED屏幕，使用Arduin
+      </div> -->
+    </a>
   </div>
-  <div class="mask-box"></div>
+
 </div>
 
+    
+    
 
-<div class="category">
-  <div class="category-name">
-    <div class="name" style="background-color: #85C1E9;">ESP32 分类</div>
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
   </div>
-  <!-- 每一篇文章卡片 -->
-  <!-- hash算法 -->
 
-<section class="posts">
+  <!-- 目录 -->
+  <aside id='l_side'>
   
     
-    <article class="post reveal" style="flex-direction: row-reverse;   ">
-      <div class="post-main">
-        <div class="post-info">
-          <div class="post-time">
-            <i class="fas fa-clock" aria-hidden="true"></i>
-            <span class="post-time">2023-06-06</span>
-          </div>
-          <div class="post-title">
-            <a class="post-title-link" href="/2023/06/06/Hall_encoder/">霍尔编码器的使用方法</a>
-          </div>
-          <div class="post-meta">
-            <div class="post-tags">
-              <!-- 文章详情页的标签 -->
-
-    <i class="iconfont icontag"></i>
-    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ESP32/" rel="tag">ESP32</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hall-Encoder/" rel="tag">Hall_Encoder</a></li></ul>
-
-            </div>
-            <div class="post-categories">
-              <!-- 文章详情页的分类 -->
-
-<div class="article-category">
-  <i class="iconfont iconbookmark1"></i>
-  <a class="article-category-link" href="/categories/ESP32/">ESP32</a>
-</div>
-
-
-            </div>
-          </div>
-          <div class="post-img-mobile">
-            <a href="/2023/06/06/Hall_encoder/" style="background-size: cover; 
-              background-position: center center;">
-              <img class="lazyload lazyload placeholder" src="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" class="lazyload placeholder" data-srcset="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-            </a>
-          </div>
-          <div class="post-content">
-            利用ESP32读取霍尔编码器编码值得到当前电机旋转速度方法。
-          </div>
-        </div>
-        <div class="post-more">
-          <a href="/2023/06/06/Hall_encoder/">
-            <i class="iconfont iconmore" pointer style="float: right;  " title="阅读更多"></i>
-          </a>
-        </div>
-      </div>
-      <div class="post-img">
-        <a href="/2023/06/06/Hall_encoder/" style="background-size: cover; 
-          background-position: center center;">
-          <img class="lazyload lazyload placeholder" src="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" class="lazyload placeholder" data-srcset="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-        </a>
-      </div>
-    </article>
-  
+      <section class="widget side_blogger">
+  <div class='content'>
     
-    <article class="post reveal" style="   ">
-      <div class="post-main">
-        <div class="post-info">
-          <div class="post-time">
-            <i class="fas fa-clock" aria-hidden="true"></i>
-            <span class="post-time">2023-06-02</span>
-          </div>
-          <div class="post-title">
-            <a class="post-title-link" href="/2023/06/02/ESP_Ard_eSPI/">使用Arduino IDE中eSPI库驱动TFT、OLED</a>
-          </div>
-          <div class="post-meta">
-            <div class="post-tags">
-              <!-- 文章详情页的标签 -->
-
-    <i class="iconfont icontag"></i>
-    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ESP32/" rel="tag">ESP32</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eSPI/" rel="tag">eSPI</a></li></ul>
-
-            </div>
-            <div class="post-categories">
-              <!-- 文章详情页的分类 -->
-
-<div class="article-category">
-  <i class="iconfont iconbookmark1"></i>
-  <a class="article-category-link" href="/categories/ESP32/">ESP32</a>
-</div>
-
-
-            </div>
-          </div>
-          <div class="post-img-mobile">
-            <a href="/2023/06/02/ESP_Ard_eSPI/" style="background-size: cover; 
-              background-position: center center;">
-              <img class="lazyload lazyload placeholder" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" class="lazyload placeholder" data-srcset="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-            </a>
-          </div>
-          <div class="post-content">
-            eSPI库使用方法总结
-          </div>
-        </div>
-        <div class="post-more">
-          <a href="/2023/06/02/ESP_Ard_eSPI/">
-            <i class="iconfont iconmore" pointer style="  " title="阅读更多"></i>
-          </a>
-        </div>
-      </div>
-      <div class="post-img">
-        <a href="/2023/06/02/ESP_Ard_eSPI/" style="background-size: cover; 
-          background-position: center center;">
-          <img class="lazyload lazyload placeholder" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" class="lazyload placeholder" data-srcset="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
         </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Lloydttt</h2>
+        
+        
+          <p>Lloydtttの小屋</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Lloydの小屋</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
       </div>
-    </article>
-  
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/lloydttt"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
 </section>
-</div>
-<div class="w-70">
+
+    
   
+  
+  
+    
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9C%8D%E5%B0%94%E7%BC%96%E7%A0%81%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">霍尔编码器介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9C%8D%E5%B0%94%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-text">什么是霍尔编码器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%8D%E5%B0%94%E7%BC%96%E7%A0%81%E5%99%A8%E4%B8%8E%E5%85%89%E7%94%B5%E7%BC%96%E7%A0%81%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">霍尔编码器与光电编码器的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8%E4%B8%BB%E8%A6%81%E7%A7%8D%E7%B1%BB"><span class="toc-text">编码器主要种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%B5%8B%E9%80%9F%E6%96%B9%E6%B3%95"><span class="toc-text">主要测速方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8ESP32%E8%A7%A3%E7%A0%81%E8%8E%B7%E5%8F%96%E7%94%B5%E6%9C%BA%E9%80%9F%E5%BA%A6"><span class="toc-text">使用ESP32解码获取电机速度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">使用方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-text">参考文献</span></a></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
 </div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/06/06/Hall_encoder/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" class="lazyload placeholder" data-srcset="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">06-06</span>
+                
+              </div>
+              <a class="post-title" href="/2023/06/06/Hall_encoder/">霍尔编码器的使用方法</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/06/02/ESP_Ard_eSPI/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" class="lazyload placeholder" data-srcset="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201911%2F08%2F20191108092322_wbpcv.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688310895&t=33b82a6aef62252ac0f8de35f2bdc4ac" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">06-02</span>
+                
+              </div>
+              <a class="post-title" href="/2023/06/02/ESP_Ard_eSPI/">使用Arduino IDE中eSPI库驱动TFT、OLED</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/06/01/docker_change_diskLoct/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://picx.zhimg.com/80/v2-d05dca75d1af3001492de6ac918fba7a_1440w.webp?source=1940ef5c" class="lazyload placeholder" data-srcset="https://picx.zhimg.com/80/v2-d05dca75d1af3001492de6ac918fba7a_1440w.webp?source=1940ef5c" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">06-01</span>
+                
+              </div>
+              <a class="post-title" href="/2023/06/01/docker_change_diskLoct/">Windows11中Docker镜像储存位置修改</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/05/31/LD14/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://picx.zhimg.com/80/v2-b44931ea513e5f7b3b06f2703f79653c_1440w.webp" class="lazyload placeholder" data-srcset="https://picx.zhimg.com/80/v2-b44931ea513e5f7b3b06f2703f79653c_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">05-31</span>
+                
+              </div>
+              <a class="post-title" href="/2023/05/31/LD14/">利用STM32F103RCT6获取LD14雷达点云</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/05/31/hexo_npm_problem/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">05-31</span>
+                
+              </div>
+              <a class="post-title" href="/2023/05/31/hexo_npm_problem/">hexo command not found--问题解决</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
 
       </main>
     </div>
@@ -1473,71 +1856,6 @@
    
 
 <!-- 评论所需js -->
-
-  
-    <script type="text/javascript">
-  var utteranceCommon = {};
-
-  function check_utterance() {
-    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
-    if (isDark) {
-      utteranceCommon.Theme = 'github-dark';
-    } else {
-      utteranceCommon.Theme = 'github-light';
-    }
-
-    return document.getElementById("gitment-container");
-  }
-  comment_el = '#gitment-container';
-  load_utterance = function () {
-    if ($(comment_el).length) {
-      // 匿名函数，防止污染全局变量
-      const HEAD = check_utterance();
-
-      var utterances = document.createElement('script');
-      utterances.type = 'text/javascript';
-      utterances.async = true;
-      utterances.setAttribute('issue-term', 'pathname')
-      utterances.setAttribute('theme', utteranceCommon.Theme)
-      utterances.setAttribute('repo', '')
-      utterances.crossorigin = 'anonymous';
-      utterances.src = 'https://utteranc.es/client.js';
-      // content 是要插入评论的地方
-      document.getElementById('gitment-container').appendChild(utterances);
-
-    }
-  }
-
-  function dark_utterance() {
-    const HEAD = check_utterance();
-    if (!HEAD) return;
-    const message = {
-      type: 'set-theme',
-      theme: utteranceCommon.Theme
-    };
-    const utteranceIframe = document.querySelector('iframe');
-    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
-  }
-
-  $(document).ready(load_utterance);
-  document.addEventListener('pjax:complete', function () {
-    load_utterance();
-  });
-
-  $('.dark').click(function () {
-    setTimeout(() => {
-      dark_utterance();
-    });
-  })
-
-</script>
-
-<style>
-  .utterances {
-    max-width: inherit !important;
-  }
-</style>
-  
 
 
 <!-- 鼠标点击特效 -->
