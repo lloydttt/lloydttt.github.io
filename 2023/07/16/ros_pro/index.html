@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>ここに行きたい | Lloydの小屋</title>
+  <title>ROS数据展示系统 | Lloydの小屋</title>
 
   <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -617,14 +617,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://pic2.zhimg.com/80/v2-e22aaad20d20634f506f57fff0fcbc17_1440w.webp')">
+  background-position: center center;position: relative;background-image:url('https://fc.sinaimg.cn/large/006BFMdqly1giqjsqcpgcj31jk11jjy5.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        ここに行きたい
+        ROS数据展示系统
       </span>
     </div>
     
@@ -645,9 +645,49 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <div class="waterfall-picture-container"><div class="gallery stretch" col="2"><p><img src="/Imageii/kokoni/1.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/1.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /><img src="/Imageii/kokoni/2.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/2.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /></p></div><div class="gallery stretch" col="4"><p><img src="/Imageii/kokoni/3.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/3.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /><img src="/Imageii/kokoni/4.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/4.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /><img src="/Imageii/kokoni/5.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/5.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /><img src="/Imageii/kokoni/6.jpg" class="lazyload placeholder" data-srcset="/Imageii/kokoni/6.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" /></p></div></div>
+        <h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><p>本项目要求使用松灵小车上录制的bag包数据，编写软件，用命令行窗口显示小车的IMU和里程计（odometry）数据；用图形界面显示颜色相机和深度相机的数据（、用OpenCV库）；用图形界面显示激光雷达的点云数据（利用PCL库）；<br>自行选择一种高级算法（例如语义分割、三维重建、导航定位（SLAM）等），实现该算法，将其集成到系统中。<br><img src="/myimg/ros_pro/bag.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/bag.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="rosbag内容"></p>
+<h2 id="项目实现"><a href="#项目实现" class="headerlink" title="项目实现"></a>项目实现</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在本项目的完成过程中使用了带有ROS的Ubuntu 20.04的docker镜像，名为tiryoh&#x2F;ros-desktop-vnc:melodic.<a target="_blank" rel="noopener" href="https://hub.docker.com/r/tiryoh/ros-desktop-vnc">dockerhub地址</a>。在该镜像中已经安装了OpenCV、PCL库。<br>该项目的各个功能包均写在一个工作空间内，其中高级算法部分使用了第三方的Gmapping库。<br><a target="_blank" rel="noopener" href="https://gitee.com/lloydtt/ROS_Project">项目源码仓库</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yN411U7Lu/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=a0cf3dbb8b6075e67c67d5f04744d98f">项目视频地址</a></p>
+<h3 id="IMU、里程计数据显示"><a href="#IMU、里程计数据显示" class="headerlink" title="IMU、里程计数据显示"></a>IMU、里程计数据显示</h3><p>根据数据包内容，数据包重现时，通过&#x2F;imu&#x2F;data_raw话题发布sensor_msgs&#x2F;Imu类型的imu数据，通过&#x2F;odom话题发布nav_msgs&#x2F;Odometry类型的里程计数据。只需订阅相关话题接收相关信息，调用数据显示回调函数即可实现功能。在编写的节点程序中，关键步骤在编写输出数据的订阅者回调函数。<br>根据sensor_msgs&#x2F;Imu与nav_msgs&#x2F;Odometry消息的内容<br><img src="/myimg/ros_pro/2.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/2.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="sensor/Imu消息内容"><br><img src="/myimg/ros_pro/3.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/3.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="nav_msgs/Odometry内容"><br>编写如下回调函数，订阅相关话题时调用即可在命令行显示imu、里程计数据。<br>    Imu数据显示回调函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">callbacki</span><span class="params">(<span class="type">const</span> sensor_msgs::Imu::ConstPtr &amp;a)</span></span>&#123;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;std_msgs/Header header&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;uint32 seq: &quot;</span>&lt;&lt;a-&gt;header.seq&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;time stamp: &quot;</span>&lt;&lt;a-&gt;header.stamp&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;frame_id: &quot;</span>&lt;&lt;a-&gt;header.frame_id&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;orientation: &quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 x: &quot;</span>&lt;&lt;a-&gt;orientation.x&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 y: &quot;</span>&lt;&lt;a-&gt;orientation.y&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 z: &quot;</span>&lt;&lt;a-&gt;orientation.z&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 w: &quot;</span>&lt;&lt;a-&gt;orientation.w&lt;&lt;std::endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;orientation_covariance: &quot;</span>&lt;&lt;a-&gt;orientation_covariance[i]&lt;&lt;std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;angular_velocity: &quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 x: &quot;</span>&lt;&lt;a-&gt;angular_velocity.x&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 y: &quot;</span>&lt;&lt;a-&gt;angular_velocity.y&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 z: &quot;</span>&lt;&lt;a-&gt;angular_velocity.z&lt;&lt;std::endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;angular_velocity_covariance: &quot;</span>&lt;&lt;a-&gt;angular_velocity_covariance[i]&lt;&lt;std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;linear_acceleration: &quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 x: &quot;</span>&lt;&lt;a-&gt;linear_acceleration.x&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 y: &quot;</span>&lt;&lt;a-&gt;linear_acceleration.y&lt;&lt;std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;float64 z: &quot;</span>&lt;&lt;a-&gt;linear_acceleration.z&lt;&lt;std::endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;linear_acceleration_covariance: &quot;</span>&lt;&lt;a-&gt;linear_acceleration_covariance[i]&lt;&lt;std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;                 end                 &quot;</span>&lt;&lt;std::endl;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>里程计数据显示回调函数：
+</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">callbacki</span><span class="params">(<span class="type">const</span> nav_msgs::Odometry::ConstPtr&amp; a)</span></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;std_msgs/Header header&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;uint32 seq: &quot;</span> &lt;&lt; a-&gt;header.seq &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;time stamp: &quot;</span> &lt;&lt; a-&gt;header.stamp &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;frame_id: &quot;</span> &lt;&lt; a-&gt;header.frame_id &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;child_frame_id: &quot;</span> &lt;&lt; a-&gt;child_frame_id &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/PoseWithCovariance pose&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Pose pose&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Point position&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 x: &quot;</span> &lt;&lt; a-&gt;pose.pose.position.x &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 y: &quot;</span> &lt;&lt; a-&gt;pose.pose.position.y &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 z: &quot;</span> &lt;&lt; a-&gt;pose.pose.position.z &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Quaternion orientation&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 x: &quot;</span> &lt;&lt; a-&gt;pose.pose.orientation.x &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 y: &quot;</span> &lt;&lt; a-&gt;pose.pose.orientation.y &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 z: &quot;</span> &lt;&lt; a-&gt;pose.pose.orientation.z &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 w: &quot;</span> &lt;&lt; a-&gt;pose.pose.orientation.w &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;covariance: &quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">36</span>; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; a-&gt;pose.covariance[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout&lt;&lt;std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/TwistWithCovariance twist&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Twist twist&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Vector3 linear&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 x: &quot;</span> &lt;&lt; a-&gt;twist.twist.linear.x &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 y: &quot;</span> &lt;&lt; a-&gt;twist.twist.linear.y &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 z: &quot;</span> &lt;&lt; a-&gt;twist.twist.linear.z &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;geometry_msgs/Vector3 angular&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 x: &quot;</span> &lt;&lt; a-&gt;twist.twist.angular.x &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 y: &quot;</span> &lt;&lt; a-&gt;twist.twist.angular.y &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;float64 z: &quot;</span> &lt;&lt; a-&gt;twist.twist.angular.z &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;covariance: &quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">36</span>; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; a-&gt;twist.covariance[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout&lt;&lt;std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;                  end               &quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/myimg/ros_pro/4.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/4.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="里程计数据显示效果"><br><img src="/myimg/ros_pro/5.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Imu数据显示效果"></p>
+<h3 id="点云数据显示"><a href="#点云数据显示" class="headerlink" title="点云数据显示"></a>点云数据显示</h3><p>由数据包内容可知，数据包通过&#x2F;rslidar_points话题发布sensor_msgs&#x2F;PointCloud2类型的点云数据消息，在节点代码中，订阅&#x2F;rslidar_points话题，使用PCL库，将将接收到的sensor_msgs::PointCloud2类型的消息转换为PCL库中的pcl::PCLPointCloud2类型。然后，使用pcl::fromPCLPointCloud2函数将pcl::PCLPointCloud2类型转换为pcl::PointCloudpcl::PointXYZ类型的点云数据。创建一个CloudViewer对象，利用该对象显示点云数据，即可实现功能。<br>    关键步骤在于订阅者程序的回调函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">callbacki</span><span class="params">(<span class="type">const</span> sensor_msgs::PointCloud2::ConstPtr &amp;a)</span></span>&#123;</span><br><span class="line">        pcl::PointCloud&lt;pcl::PointXYZ&gt; cloud;</span><br><span class="line">        pcl::PCLPointCloud2 pcl_pc;</span><br><span class="line">        pcl_conversions::<span class="built_in">toPCL</span>(*a, pcl_pc);</span><br><span class="line">        pcl::<span class="built_in">fromPCLPointCloud2</span>(pcl_pc, cloud);</span><br><span class="line">        viewer.<span class="built_in">showCloud</span>(cloud.<span class="built_in">makeShared</span>());</span><br><span class="line">        <span class="comment">// viewer_timer = nh.createTimer(ros::Duration(0.1), &amp;cloudHandler::timerCB, this);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>编写如上函数在订阅/rslidar_points话题时调用即可实现功能。
+</code></pre>
+<p><img src="/myimg/ros_pro/6.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="点云显示效果"></p>
+<h3 id="深度相机与颜色相机数据显示"><a href="#深度相机与颜色相机数据显示" class="headerlink" title="深度相机与颜色相机数据显示"></a>深度相机与颜色相机数据显示</h3><p>由数据包内容知，数据包重现时通过&#x2F;camera&#x2F;color&#x2F;image_raw与&#x2F;camera&#x2F;depth&#x2F;image_rect_raw话题发布颜色相机与深度相机数据信息消息。</p>
+<pre><code>定义如下ImageConverter类：
+</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImageConverter</span></span><br><span class="line">&#123;</span><br><span class="line">    ros::NodeHandle nh_;</span><br><span class="line">    image_transport::ImageTransport it_;</span><br><span class="line">    image_transport::Subscriber image_sub_color;</span><br><span class="line">    image_transport::Subscriber image_sub_depth;</span><br><span class="line">    image_transport::Publisher image_pub_color;</span><br><span class="line">    image_transport::Publisher image_pub_depth;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ImageConverter</span>()</span><br><span class="line">        : <span class="built_in">it_</span>(nh_)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        image_sub_color = it_.<span class="built_in">subscribe</span>(<span class="string">&quot;/camera/color/image_raw&quot;</span>, <span class="number">1</span>, &amp;ImageConverter::imageCb, <span class="keyword">this</span>);</span><br><span class="line">        image_sub_depth = it_.<span class="built_in">subscribe</span>(<span class="string">&quot;/camera/depth/image_rect_raw&quot;</span>, <span class="number">1</span>, &amp;ImageConverter::depthCb, <span class="keyword">this</span>);</span><br><span class="line">        image_pub_color = it_.<span class="built_in">advertise</span>(<span class="string">&quot;/image_converter/output_video/color&quot;</span>, <span class="number">1</span>);</span><br><span class="line">        image_pub_depth = it_.<span class="built_in">advertise</span>(<span class="string">&quot;/image_converter/output_video/depth&quot;</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        cv::<span class="built_in">namedWindow</span>(OPENCV_WINDOW_COLOR);</span><br><span class="line">        cv::<span class="built_in">namedWindow</span>(OPENCV_WINDOW_DEPTH);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    ~<span class="built_in">ImageConverter</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        cv::<span class="built_in">destroyWindow</span>(OPENCV_WINDOW_COLOR);</span><br><span class="line">        cv::<span class="built_in">destroyWindow</span>(OPENCV_WINDOW_DEPTH);</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">imageCb</span><span class="params">(<span class="type">const</span> sensor_msgs::ImageConstPtr &amp;msg)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cv_bridge::CvImagePtr cv_ptr;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            cv_ptr = cv_bridge::<span class="built_in">toCvCopy</span>(msg, sensor_msgs::image_encodings::BGR8);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">catch</span> (cv_bridge::Exception &amp;eee)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">ROS_ERROR</span>(<span class="string">&quot;cv_bridge exception: %s&quot;</span>, eee.<span class="built_in">what</span>());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (cv_ptr-&gt;image.rows &gt; <span class="number">60</span> &amp;&amp; cv_ptr-&gt;image.cols &gt; <span class="number">60</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cv::<span class="built_in">circle</span>(cv_ptr-&gt;image, cv::<span class="built_in">Point</span>(<span class="number">50</span>, <span class="number">50</span>), <span class="number">10</span>, <span class="built_in">CV_RGB</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cv::<span class="built_in">imshow</span>(OPENCV_WINDOW_COLOR, cv_ptr-&gt;image);</span><br><span class="line">        cv::<span class="built_in">waitKey</span>(<span class="number">3</span>);</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        image_pub_color.<span class="built_in">publish</span>(cv_ptr-&gt;<span class="built_in">toImageMsg</span>());</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">depthCb</span><span class="params">(<span class="type">const</span> sensor_msgs::ImageConstPtr &amp;msg)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        cv_bridge::CvImagePtr cv_ptr;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            cv_ptr = cv_bridge::<span class="built_in">toCvCopy</span>(msg, sensor_msgs::image_encodings::TYPE_16UC1);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">catch</span> (cv_bridge::Exception &amp;e)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">ROS_ERROR</span>(<span class="string">&quot;cv_bridge exception: %s&quot;</span>, e.<span class="built_in">what</span>());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cv_ptr-&gt;image.rows &gt; <span class="number">60</span> &amp;&amp; cv_ptr-&gt;image.cols &gt; <span class="number">60</span>)</span><br><span class="line">            cv::<span class="built_in">circle</span>(cv_ptr-&gt;image, cv::<span class="built_in">Point</span>(<span class="number">50</span>, <span class="number">50</span>), <span class="number">10</span>, <span class="built_in">CV_RGB</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        cv::<span class="built_in">imshow</span>(OPENCV_WINDOW_DEPTH, cv_ptr-&gt;image);</span><br><span class="line">        cv::<span class="built_in">waitKey</span>(<span class="number">3</span>);</span><br><span class="line"> </span><br><span class="line">    </span><br><span class="line">        image_pub_depth.<span class="built_in">publish</span>(cv_ptr-&gt;<span class="built_in">toImageMsg</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在主函数中创建该类的一个对象即可实现功能。该类包括一个ROS节点句柄对象、一个图像数据传输对象、四个图像传输相关的成员变量。利用构造函数初始化ROS节点句柄对象与图像传输对象，创建四个图像传输相关的订阅者和发布者。当接受到彩色图像数据时调用imageCb函数处理接收到的消息，将ROS消息转换为OpenCV的CvImagePtr类型，后将图像显示在OpenCV窗口中，并发布处理后的彩色图像消息。当接受到深度图像数据时调用depthCb函数处理接收到的消息，同样的将ROS消息转换为OpenCV的CvImagePtr类型，将图像显示在OpenCV窗口中，发布处理后的彩色图像消息。<br>    关键步骤在于imageCb函数与depthCb函数的编写。</p>
+<p>实现效果：</p>
+<p><img src="/myimg/ros_pro/7.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="深度相机与颜色相机效果"></p>
+<h3 id="Slam建图显示"><a href="#Slam建图显示" class="headerlink" title="Slam建图显示"></a>Slam建图显示</h3><p>在该功能中，使用了第三方开源的Gmapping库，利用该库订阅数据包发布的&#x2F;scan、&#x2F;odom话题，接收雷达信息与里程计信息，进行坐标转换，发布&#x2F;map话题。最后利用OpenCV库绘制出&#x2F;map话题对应地图数据即可实现Slam建图功能。<br>    使用Gmapping库时需要注意先将slam_gmapping节点源码内的订阅者、发布者队列相应增大1000倍。经过实际操作，由于数据包量大、发布速度快，源码初始的队列长度会导致丢包率过大的问题。并且开启slam_gmapping节点时需注意让rosbag停留长于默认0.2s的时间保证slam_grmapping节点可以成功接收相关话题消息。在rosbag play后添加-d选项实现暂停。<br>    在显示图像节点源码中编写如下回调函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cv::Mat map;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">mapCallback</span><span class="params">(<span class="type">const</span> nav_msgs::OccupancyGrid::ConstPtr&amp; msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> scale = <span class="number">1.0</span>;</span><br><span class="line">    <span class="type">int</span> width = <span class="number">1200</span>;</span><br><span class="line">    <span class="type">int</span> height = <span class="number">1200</span>;</span><br><span class="line">    cv::Point offset = &#123;<span class="number">-1600</span>, <span class="number">-1600</span>&#125;;</span><br><span class="line">    map = cv::Mat::<span class="built_in">zeros</span>(cv::<span class="built_in">Size</span>(width, height), CV_8UC3);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; msg-&gt;info.width * msg-&gt;info.height; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> x = (i % msg-&gt;info.width + offset.x) * scale;</span><br><span class="line">        <span class="type">int</span> y = (i / msg-&gt;info.width + offset.y) * scale;</span><br><span class="line">        <span class="keyword">if</span> (msg-&gt;data[i] == <span class="number">-1</span>) &#123;</span><br><span class="line">            cv::<span class="built_in">circle</span>(map, cv::<span class="built_in">Point</span>(x, y), <span class="number">1</span>, cv::<span class="built_in">Scalar</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), <span class="number">-1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (msg-&gt;data[i] &gt;= <span class="number">80</span>) &#123;</span><br><span class="line">            cv::<span class="built_in">circle</span>(map, cv::<span class="built_in">Point</span>(x, y), <span class="number">3</span>, cv::<span class="built_in">Scalar</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">-1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cv::<span class="built_in">circle</span>(map, cv::<span class="built_in">Point</span>(x, y), <span class="number">3</span>, cv::<span class="built_in">Scalar</span>(<span class="number">64</span>, <span class="number">64</span>, <span class="number">64</span>), <span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;My Slam Map&quot;</span>, map);</span><br><span class="line">    cv::<span class="built_in">waitKey</span>(<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>收到&#x2F;map话题的消息时调用该函数。定义一个cv::Mat类型的变量map，用于存储生成的地图图像。mapCallback函数接收nav_msgs::OccupancyGrid类型的指针作为输入参数。设置地图缩放比例为1.0，宽高默认1200，地图坐标的偏移量默认为{-1600, -1600}。使用cv::Mat::zeros函数创建一个大小为width×height的黑色图像作为地图。使用一个循环遍历msg-&gt;data数组中的每个元素，根据元素的值来决定在地图上画圆的位置和颜色：计算当前元素对应的坐标x和y，根据地图的缩放比例和偏移量进行计算。如果元素的值为-1，表示未知区域，使用白色画一个半径为1的圆。如果元素的值大于等于80，表示占据区域，使用黑色画一个半径为3的圆。否则，表示自由区域，使用灰色画一个半径为3的圆。将生成的地图图像显示在名为”My Slam Map”的OpenCV窗口中，并等待1000毫秒。<br>    实现效果：<br><img src="/myimg/ros_pro/8.png" class="lazyload placeholder" data-srcset="/myimg/ros_pro/8.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Slam建图效果"></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>由衷感谢两位任课老师在软件设计课程中的辛勤奉献！<br>鸽了好久…之前的自平衡桌面助手仍在完善，后续更新…</p>
+
       </div>
       <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Linux/" class="">
+              Linux
+            </a>
+          
+            <a href="/tags/ROS/" class="">
+              ROS
+            </a>
+          
+            <a href="/tags/Ubuntu/" class="">
+              Ubuntu
+            </a>
+          
+        </div>
         
       </div>
       
@@ -658,7 +698,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/gallery/kokoni/index.html" target="_blank" title="ここに行きたい">https://lloydttt.github.io/gallery/kokoni/index.html</a>
+    <a href="/2023/07/16/ros_pro/" target="_blank" title="ROS数据展示系统">https://lloydttt.github.io/2023/07/16/ros_pro/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -677,6 +717,23 @@
 
 
 
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" class="lazyload placeholder" data-srcset="https://pic.rmb.bdstatic.com/bjh/ab047acba8eb336b71eaebb8848cc2a15436.jpeg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/06/06/Hall_encoder/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">霍尔编码器的使用方法</div>
+      </div>
+      <!-- <div class="content">
+        霍尔编码器介绍什么是霍尔编码器霍尔编码器（Hall Encoder）是一种传感器，用于检测和测量磁场的变化。它基于霍尔效
+      </div> -->
+    </a>
+  </div>
 
 </div>
 
@@ -706,13 +763,6 @@
     
     <!-- 评论 -->
     <!-- 评论 -->
-
-  <div id="myComment">
-    
-      <div id="gitment-container"></div>
-
-    
-  </div>
 
 <!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
 
@@ -774,68 +824,29 @@
   <div class="layout_sticky">    
     
       
-        
-    <section class="widget side_category">
-      
+<section class="widget side_toc">
+  
   <header>
     
-      <a style="color: " href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
     
   </header>
 
 
-      <div class='content'>
-        <ul class="entry navigation">
-          
-            <li><a class="flat-box"
-              title="/categories/Docker/" href="/categories/Docker/"
-              id="categoriesDocker"
-              ><div class='name'>Docker</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/ESP32/" href="/categories/ESP32/"
-              id="categoriesESP32"
-              ><div class='name'>ESP32</div><div class='badge'>(2)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/Hexo/" href="/categories/Hexo/"
-              id="categoriesHexo"
-              ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/ROS/" href="/categories/ROS/"
-              id="categoriesROS"
-              ><div class='name'>ROS</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/STM32/" href="/categories/STM32/"
-              id="categoriesSTM32"
-              ><div class='name'>STM32</div><div class='badge'>(1)</div></a></li>
-          
-        </ul>
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0"><span class="toc-text">项目实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E3%80%81%E9%87%8C%E7%A8%8B%E8%AE%A1%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA"><span class="toc-text">IMU、里程计数据显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E4%BA%91%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA"><span class="toc-text">点云数据显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E7%9B%B8%E6%9C%BA%E4%B8%8E%E9%A2%9C%E8%89%B2%E7%9B%B8%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA"><span class="toc-text">深度相机与颜色相机数据显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Slam%E5%BB%BA%E5%9B%BE%E6%98%BE%E7%A4%BA"><span class="toc-text">Slam建图显示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-text">后记</span></a></li></ol> -->
+        <div class="toc"></div>
       </div>
-    </section>
-  
-  
-      
-      
-        
-<section class="widget side_tagcloud">
-    
-  <header>
-    
-      <a style="color: " href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-    <a href="/tags/Docker/" style="font-size: 14px; color: #999">Docker</a> <a href="/tags/ESP32/" style="font-size: 24px; color: #555">ESP32</a> <a href="/tags/Hall-Encoder/" style="font-size: 14px; color: #999">Hall_Encoder</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/Linux/" style="font-size: 14px; color: #999">Linux</a> <a href="/tags/ROS/" style="font-size: 14px; color: #999">ROS</a> <a href="/tags/STM32/" style="font-size: 14px; color: #999">STM32</a> <a href="/tags/Ubuntu/" style="font-size: 14px; color: #999">Ubuntu</a> <a href="/tags/bug/" style="font-size: 24px; color: #555">bug</a> <a href="/tags/eSPI/" style="font-size: 14px; color: #999">eSPI</a> <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 14px; color: #999">嵌入式</a>
     </div>
+  </div>
 </section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
 
-  
-      
       
   <section class="widget side_recent_post">
     
@@ -960,142 +971,6 @@
       </div>
     </div>
   </section>
-
-      
-  <section class="widget side_archives">
-    
-    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/06/"><span class="card-archive-list-date">六月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">2</span></a></li></ul></div>
-  </section>
-
-      <section class="widget side_webinfo">
-  
-  <header>
-    
-      <i style="color: " class="fas fa-chart-line fa-fw" aria-hidden="true"></i><span class='name' style="color: ">站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>6 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2023/05/28'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="busuanzi_value_site_uv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="busuanzi_value_site_pv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Sun Jul 16 2023 23:00:18 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2023-07-16 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2023-07-16 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
-      
-  
-    <div class="widget historyToday" id="historyToday" style="order: ;background: #fff">
-      <header>
-        
-          <a style="color: #d63130" target="_blank" rel="noopener" href='http://google.com'><i class="fas fa-calendar-week fa-fw" aria-hidden="true"></i><span class='name'>历史上的今天</span></a>
-        
-      </header>
-      <div class="content">
-         <div id="myHistorySwiper" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()"> <swiper class="myhistoryswiper" ref="myhistoryswiper" style="height:80px;" :options="swiperOption"> <swiper-slide v-for="(item, index) in content" :key="index"> {{item}} </swiper-slide> </swiper> </div> <script defer src="/historyToday/index.js"></script> 
-      </div>
-  </div>
-  
 
     
   </div>
@@ -1969,71 +1844,6 @@
    
 
 <!-- 评论所需js -->
-
-  
-    <script type="text/javascript">
-  var utteranceCommon = {};
-
-  function check_utterance() {
-    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
-    if (isDark) {
-      utteranceCommon.Theme = 'github-dark';
-    } else {
-      utteranceCommon.Theme = 'github-light';
-    }
-
-    return document.getElementById("gitment-container");
-  }
-  comment_el = '#gitment-container';
-  load_utterance = function () {
-    if ($(comment_el).length) {
-      // 匿名函数，防止污染全局变量
-      const HEAD = check_utterance();
-
-      var utterances = document.createElement('script');
-      utterances.type = 'text/javascript';
-      utterances.async = true;
-      utterances.setAttribute('issue-term', 'pathname')
-      utterances.setAttribute('theme', utteranceCommon.Theme)
-      utterances.setAttribute('repo', '')
-      utterances.crossorigin = 'anonymous';
-      utterances.src = 'https://utteranc.es/client.js';
-      // content 是要插入评论的地方
-      document.getElementById('gitment-container').appendChild(utterances);
-
-    }
-  }
-
-  function dark_utterance() {
-    const HEAD = check_utterance();
-    if (!HEAD) return;
-    const message = {
-      type: 'set-theme',
-      theme: utteranceCommon.Theme
-    };
-    const utteranceIframe = document.querySelector('iframe');
-    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
-  }
-
-  $(document).ready(load_utterance);
-  document.addEventListener('pjax:complete', function () {
-    load_utterance();
-  });
-
-  $('.dark').click(function () {
-    setTimeout(() => {
-      dark_utterance();
-    });
-  })
-
-</script>
-
-<style>
-  .utterances {
-    max-width: inherit !important;
-  }
-</style>
-  
 
 
 <!-- 鼠标点击特效 -->
